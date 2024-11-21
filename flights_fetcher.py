@@ -34,7 +34,6 @@ class FlightsFetcher:
             airplane_url = airplane_url_template.format(**coordinates_dict)
             result = self.get_json_from_api_call(airplane_url)
             result = result["features"]
-            print(len(result))
             for flight_info in result:
                 flat_flight_info = self.flatten_json(flight_info)
                 all_flights_info.append(flat_flight_info)
