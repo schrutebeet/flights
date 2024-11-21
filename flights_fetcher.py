@@ -3,9 +3,11 @@ import time
 import json
 import random
 from pathlib import Path
+from datetime import datetime
 from typing import List, Dict, Any, Union, Tuple, Iterator
 
 import requests
+import pandas as pd
 from playwright.sync_api import sync_playwright
 
 ROOT_PATH = Path(__file__).parent
@@ -26,14 +28,18 @@ class FlightsFetcher:
         airplane_url_template = self.replace_coordinates_with_placeholders(airplane_url)
         self.create_long_lat_sections(sections=50)
         sum_planes = 0
+        all_flights_info = []
         for minLon, maxLon, minLat, maxLat in self.iterate_coordinates():
             coordinates_dict = {"minLon": minLon, "maxLon": maxLon, "minLat": minLat, "maxLat": maxLat}
             airplane_url = airplane_url_template.format(**coordinates_dict)
             result = self.get_json_from_api_call(airplane_url)
-            time.sleep(random.randint(1, 3))
             result = result["features"]
-            sum_planes = sum_planes + len(result)
-            print(sum_planes)
+            print(len(result))
+            for flight_info in result:
+                flat_flight_info = self.flatten_json(flight_info)
+                all_flights_info.append(flat_flight_info)
+        return all_flights_info
+
 
 
     def get_webpage_url_calls(self, filter_by: str = None) -> List[str]:
@@ -125,6 +131,17 @@ class FlightsFetcher:
         )
         return replaced_url
 
-    # def read_map(self, file_path: Union[Path, str]):
-
-    
+    @staticmethod
+    def flatten_json(json_file: Dict) -> Dict:
+        out = {}
+        def flatten(x, name=""):
+            if isinstance(x, dict):
+                for key in x:
+                    flatten(x[key], name + key + "_")
+            elif isinstance(x, list):
+                for i, item in enumerate(x):
+                    flatten(item, name + str(i) + "_")
+            else:
+                out[name[:-1]] = x
+        flatten(json_file)
+        return out
