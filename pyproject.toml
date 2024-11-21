@@ -10,6 +10,8 @@ python = "^3.9"
 playwright = "^1.48.0"
 requests = "^2.32.3"
 pandas = "^2.2.3"
+fastparquet = "^2024.11.0"
+pyarrow = "^18.0.0"
 
 
 [build-system]
