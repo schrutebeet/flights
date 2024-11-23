@@ -55,7 +55,7 @@ class DataManager:
         current_day = now.date()
         day_folder = now.strftime("%Y-%m-%d")
 
-        if last_hour is not None:
+        if last_hour is not None and last_hour != current_hour:
             if last_hour == 23 and current_hour == 0:
                 # Transition from 23:00 to 00:00
                 previous_day = current_day - timedelta(days=1)
