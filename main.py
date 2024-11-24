@@ -12,3 +12,4 @@ while True:
     print("Flights converted to dataframe.")
     DataManager.save_to_temp(df)
     last_hour = DataManager.process_hourly_data(last_hour=last_hour)
+    print("\n\n")
