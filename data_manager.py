@@ -77,7 +77,8 @@ class DataManager:
                     # Merge all Parquet files into a single file
                     output_file = os.path.join(output_folder, f"{day_folder}_{previous_hour:02d}.parquet")
                     os.makedirs(output_folder, exist_ok=True)
-                    DataManager.merge_parquet_files(files, output_file)
+                    all_data = pd.concat([pd.read_parquet(f) for f in files], ignore_index=True)
+                    all_data.to_parquet(output_file)
 
                     print(f"Saved merged Parquet file to {output_file}")
 
@@ -88,13 +89,3 @@ class DataManager:
 
         # Return the current hour as the new "last_hour"
         return current_hour
-    
-    @staticmethod
-    def merge_parquet_files(files, output_file):
-        """
-        Merge multiple Parquet files directly into one without loading them fully into memory.
-        """
-        tables = [pq.read_table(f) for f in files]  # Read each file as a PyArrow Table
-        combined_table = pa.concat_tables(tables)  # Combine tables
-        pq.write_table(combined_table, output_file)  # Write the combined table to a single Parquet file
-
