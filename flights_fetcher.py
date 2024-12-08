@@ -1,3 +1,4 @@
+import os
 import re
 import time
 import json
@@ -18,6 +19,7 @@ class FlightsFetcher:
     MAX_LONGITUDE = 180
     MIN_LATITUDE = -90
     MAX_LATITUDE = 90
+    SUPPORT_FOLDER = Path(__file__).parent / "support" / "files"
 
     def __init__(self, webpage_url: str):
         self.webpage_url = webpage_url
@@ -68,7 +70,8 @@ class FlightsFetcher:
                     return token
 
     def get_json_from_api_call(self, url: str) -> Dict[str, Any]:
-        with open(ROOT_PATH / "support/files/user_agents.json", 'r') as file:
+        os.makedirs(self.SUPPORT_FOLDER, exist_ok=True)
+        with open(self.SUPPORT_FOLDER / "user_agents.json", 'r') as file:
             user_agents_list = json.load(file)
         user_agent = random.choice(user_agents_list)
         header = {'user-agent': user_agent}
@@ -88,8 +91,9 @@ class FlightsFetcher:
         latitude_step = (self.MAX_LATITUDE - self.MIN_LATITUDE) / sections
         # Open a file to write the coordinates
         if file_path is None:
-            file_path = ROOT_PATH / "support/files"
-        with open(f"{file_path}/map_sections.txt", "w") as file:
+            file_path = self.SUPPORT_FOLDER
+            os.makedirs(file_path, exist_ok=True)
+        with open(os.path.join(file_path, "map_sections.txt"), "w") as file:
             for i in range(sections):
                 # Calculate the longitude range for each section
                 lon_min = self.MIN_LONGITUDE + i * longitude_step
