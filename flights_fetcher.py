@@ -70,15 +70,50 @@ class FlightsFetcher:
                     return token
 
     def get_json_from_api_call(self, url: str) -> Dict[str, Any]:
-        os.makedirs(self.SUPPORT_FOLDER, exist_ok=True)
-        with open(self.SUPPORT_FOLDER / "user_agents.json", 'r') as file:
-            user_agents_list = json.load(file)
-        user_agent = random.choice(user_agents_list)
-        header = {'user-agent': user_agent}
-        s = requests.Session()
-        s.headers.update(header)
-        json_data = s.get(url).json()
-        return json_data
+        retries = 50
+        for attempt in range(retries):
+            try:
+                os.makedirs(self.SUPPORT_FOLDER, exist_ok=True)
+                with open(self.SUPPORT_FOLDER / "user_agents.json", 'r') as file:
+                    user_agents_list = json.load(file)
+                user_agent = random.choice(user_agents_list)
+                header = {'user-agent': user_agent}
+                s = requests.Session()
+                s.headers.update(header)
+                response = s.get(url, timeout=60)
+                response.raise_for_status()
+                json_data = response.json()
+                return json_data
+            except requests.exceptions.RequestException as e:
+                print(f"Attempt {attempt + 1} failed: {e}")
+                if attempt < retries - 1: 
+                    time.sleep(random.randint(5, 10))
+                else:
+                    raise Exception(f"Failed after {retries} attempts.") from e
+    
+    def make_api_call(self, url: str) -> Dict:
+        retries = 50
+        for attempt in range(retries):
+            try:
+                os.makedirs(self.SUPPORT_FOLDER, exist_ok=True)
+                with open(self.SUPPORT_FOLDER / "user_agents.json", 'r') as file:
+                    user_agents_list = json.load(file)
+                user_agent = random.choice(user_agents_list)
+                header = {'user-agent': user_agent}
+                s = requests.Session()
+                s.headers.update(header)
+                response = s.get(url, timeout=60)
+                response.raise_for_status()
+                json_data = response.json()
+            except requests.exceptions.RequestException as e:
+                print(f"Attempt {attempt + 1} failed: {e}")
+                if attempt < retries - 1: 
+                    time.sleep(random.randint(5, 10))
+                else:
+                    raise Exception(f"Failed after {retries} attempts.") from e
+
+        
+
 
     def create_long_lat_sections(self, sections: int, file_path: Union[Path, str] = None) -> None:
         """Create a .txt file with different sections covering the whole coordinates space.
