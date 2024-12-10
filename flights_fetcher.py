@@ -25,8 +25,7 @@ class FlightsFetcher:
         self.webpage_url = webpage_url
 
     def run_all(self) -> None:
-        url_aircraft_list = self.get_webpage_url_calls()
-        airplane_url = next((item for item in url_aircraft_list if "vicinity_aircraft" in item), None)
+        airplane_url = self.get_webpage_url_calls()
         airplane_url_template = self.replace_coordinates_with_placeholders(airplane_url)
         self.create_long_lat_sections(sections=50)
         sum_planes = 0
@@ -40,8 +39,6 @@ class FlightsFetcher:
                 flat_flight_info = self.flatten_json(flight_info)
                 all_flights_info.append(flat_flight_info)
         return all_flights_info
-
-
 
     def get_webpage_url_calls(self, filter_by: str = None) -> List[str]:
         with sync_playwright() as p:
