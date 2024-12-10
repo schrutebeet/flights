@@ -75,8 +75,8 @@ class DataManager:
                 
                 if files:
                     # Merge all Parquet files into a single file
-                    output_file = os.path.join(output_folder, f"{day_folder}_{previous_hour:02d}.parquet")
-                    os.makedirs(output_folder, exist_ok=True)
+                    output_file = os.path.join(output_folder, day_folder, f"{day_folder}_{previous_hour:02d}.parquet")
+                    os.makedirs(os.path.join(output_folder, day_folder), exist_ok=True)
                     all_data = pd.concat([pd.read_parquet(f) for f in files], ignore_index=True)
                     all_data.to_parquet(output_file)
 
