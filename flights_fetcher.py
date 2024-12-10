@@ -58,7 +58,11 @@ class FlightsFetcher:
             browser.close()
         if filter_by:
             urls = [url for url in urls if f"{filter_by}" in url]
-        return urls
+        airplane_url = next((item for item in urls if "vicinity_aircraft" in item), None)
+        if airplane_url is None:
+            time.sleep(30)
+            self.get_webpage_url_calls()
+        return airplane_url
 
     def get_aircraft_token(self, url_list: List[str]) -> Union[str, None]:
         for url in url_list:
