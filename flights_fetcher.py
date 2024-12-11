@@ -58,7 +58,7 @@ class FlightsFetcher:
         airplane_url = next((item for item in urls if "vicinity_aircraft" in item), None)
         if airplane_url is None:
             time.sleep(30)
-            self.get_webpage_url_calls()
+            airplane_url = self.get_webpage_url_calls()
         return airplane_url
 
     def get_aircraft_token(self, url_list: List[str]) -> Union[str, None]:
@@ -112,9 +112,6 @@ class FlightsFetcher:
                     time.sleep(random.randint(5, 10))
                 else:
                     raise Exception(f"Failed after {retries} attempts.") from e
-
-        
-
 
     def create_long_lat_sections(self, sections: int, file_path: Union[Path, str] = None) -> None:
         """Create a .txt file with different sections covering the whole coordinates space.
