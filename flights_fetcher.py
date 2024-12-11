@@ -57,7 +57,7 @@ class FlightsFetcher:
             urls = [url for url in urls if f"{filter_by}" in url]
         airplane_url = next((item for item in urls if "vicinity_aircraft" in item), None)
         if airplane_url is None:
-            time.sleep(30)
+            time.sleep(random.randint(30, 45))
             airplane_url = self.get_webpage_url_calls()
         return airplane_url
 
