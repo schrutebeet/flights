@@ -22,10 +22,9 @@ I had particular fun while designing this project as it is usually very difficul
 - **Data storage**: Store the dataframes locally using parquet files for disk optimization.
 
 ## Project structure
-
+```
 flights/
 ├── __init__.py
-├── .gitignore
 ├── data_manager.py
 ├── flights_fetcher.py
 ├── main.py
@@ -38,7 +37,7 @@ flights/
     └── files/
         ├── map_sections.txt
         └── user_agents.json
-
+```
 
 ## Requirements
 
