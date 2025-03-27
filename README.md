@@ -11,29 +11,37 @@ I had particular fun while designing this project as it is usually very difficul
 
 ## Project features
 
-- **Flight extraction**: Fetches metadata and stock data (OHLCV) for different stocks. An Alphavantage API key is needed. Can be requested following this [link](https://www.alphavantage.co/support/#support).
-- **Data storage**: Stores the data in a PostgreSQL database.
-- **Email notification**: Sends a success notification after the process is complete. E-mail credentials are needed in order to enable this feature.
-- **Logging**: Comprehensive logging of the process. Can be useful both for reporting and debugging.
+- **Flight extraction**: Fetches several information features for each flight in the air. There are approximately 12,000 flights traveling from one place to another at any point in time. Data contains key information like:
+    - `Coordinates` both for latitude and longitude.
+    - Flight `prefix`
+    - Flight `identification` number.
+    - Radiant `direction`. From 0º to 360º.
+    - `Flight type` indicating whether the aircraft is an _airline_, an _cargo_, _medical evacuation_ aircraft, etc.
+    - `Ground speed`
+    - ...and many more!
+- **Data storage**: Store the dataframes locally using parquet files for disk optimization.
 
 ## Requirements
 
 Before running this project, ensure you have the following dependencies installed:
 
 - Python 3.x
-- Required Python packages (listed in `requirements.txt`)
+- poetry 1.8.0
+- Required Python packages (to be installed using `poetry install`)
 
 ## Installation
 
 ### Clone the repository
 
 ```bash
-git clone git@github.com:schrutebeet/stock_market.git
-cd stock_market
+git clone git@github.com:schrutebeet/flights.git
+cd flights
 ```
 
-## Additional resources
-The project also contains the following files:
 
-- `Dockefile`: A Docker file which can be used to build an image of this project and deploy it anywhere. I personally use this option to deploy the project on a Raspberry Pi 3B.
-- `stocks_cronjob.sh`: If using images is an expensive option for deploying, you can also add this file as a Cronjob task to be executed in your computer.
+## Planning ahead
+The next steps for this project include:
+
+- **Logging**: Comprehensive logging of the process. To be used both for reporting and debugging.
+- **Email notification**: To be used at the end of each run, or at the end of the day.
+- **Data storage**: So far, only parquet files are used. Data could be stored in a database for better fault tolerance.
