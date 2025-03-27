@@ -48,6 +48,7 @@ Before running this project, ensure you have the following dependencies installe
 - poetry 1.8.0
 - Required Python packages (to be installed using `poetry install`)
 
+
 ## Installation
 
 ### Clone the repository
