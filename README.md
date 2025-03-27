@@ -1,5 +1,5 @@
 # Flight fetcher :airplane:
-This project has been built to automatically fetch data from the [flightaware](https://www.flightaware.com/live/) webpage and to automatically store them using a relational database (like PostgreSQL). 
+This project has been built to automatically fetch data from the [flightaware](https://www.flightaware.com/live/) webpage and to automatically store them using parquet files. 
 For it, I have used the `requests` package and have splitted the world's map into a grid of several squares.
 This division is important because, for some reason, the GET request will not give you all planes on the air if you query for the whole worls at once.
 The world grid looks something like this:
