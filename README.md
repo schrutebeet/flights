@@ -21,6 +21,25 @@ I had particular fun while designing this project as it is usually very difficul
     - ...and many more!
 - **Data storage**: Store the dataframes locally using parquet files for disk optimization.
 
+## Project structure
+
+flights/
+├── __init__.py
+├── .gitignore
+├── data_manager.py
+├── flights_fetcher.py
+├── main.py
+├── poetry.lock
+├── pyproject.toml
+├── README.md
+└── support/
+    ├── __init__.py
+    ├── create_lon_lat_sections.py
+    └── files/
+        ├── map_sections.txt
+        └── user_agents.json
+
+
 ## Requirements
 
 Before running this project, ensure you have the following dependencies installed:
