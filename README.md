@@ -39,6 +39,12 @@ flights/
         └── user_agents.json
 ```
 
+## Project output
+
+Once the program is executed, these are the logs of what is going on under the hood:
+![image](https://github.com/user-attachments/assets/c3708def-7d9b-43e4-8981-3c3a720be038)
+
+
 ## Requirements
 
 Before running this project, ensure you have the following dependencies installed:
