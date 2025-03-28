@@ -46,8 +46,8 @@ class FlightsFetcher:
         with sync_playwright() as p:
             # Launch the browser
             browser = p.chromium.launch(headless=False)
-            page = browser.new_page()
-            page.set_user_agent(random.choice(headers))
+            context = browser.new_context(user_agent=random.choice(headers))
+            page = context.new_page()
             # List to store captured URLs
             urls = []
             # Set up a network request listener
