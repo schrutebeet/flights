@@ -43,14 +43,18 @@ class FlightsFetcher:
     def get_webpage_url_calls(self, filter_by: str = None) -> List[str]:
         with sync_playwright() as p:
             # Launch the browser
-            browser = p.chromium.launch(headless=True)
+            browser = p.chromium.launch(headless=False)
             page = browser.new_page()
             # List to store captured URLs
             urls = []
             # Set up a network request listener
             page.on("request", lambda request: urls.append(request.url))
             # Open the page
-            page.goto(self.webpage_url)
+            try:
+                page.goto(self.webpage_url, wait_until="domcontentloaded")
+            except playwright._impl._errors.TimeoutError:
+                time.sleep(random.randint(30, 45))
+                page.goto(self.webpage_url, wait_until="domcontentloaded")
             # Close the browser
             browser.close()
         if filter_by:
