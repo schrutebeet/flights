@@ -45,7 +45,7 @@ class FlightsFetcher:
     def get_webpage_url_calls(self, filter_by: str = None) -> List[str]:
         with sync_playwright() as p:
             # Launch the browser
-            browser = p.chromium.launch(headless=False)
+            browser = p.chromium.launch(headless=True)
             context = browser.new_context(user_agent=random.choice(headers))
             page = context.new_page()
             # List to store captured URLs
