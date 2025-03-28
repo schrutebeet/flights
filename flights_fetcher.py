@@ -11,6 +11,8 @@ import requests
 import pandas as pd
 from playwright.sync_api import sync_playwright
 
+from support.headers import headers
+
 ROOT_PATH = Path(__file__).parent
 
 class FlightsFetcher:
@@ -45,6 +47,7 @@ class FlightsFetcher:
             # Launch the browser
             browser = p.chromium.launch(headless=False)
             page = browser.new_page()
+            page.set_user_agent(random.choice(headers))
             # List to store captured URLs
             urls = []
             # Set up a network request listener
