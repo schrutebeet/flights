@@ -9,6 +9,7 @@ from typing import List, Dict, Any, Union, Tuple, Iterator
 
 import requests
 import pandas as pd
+import playwright
 from playwright.sync_api import sync_playwright
 
 from support.headers import headers
@@ -54,10 +55,10 @@ class FlightsFetcher:
             page.on("request", lambda request: urls.append(request.url))
             # Open the page
             try:
-                page.goto(self.webpage_url, wait_until="domcontentloaded")
+                page.goto(self.webpage_url, timeout=100000)
             except playwright._impl._errors.TimeoutError:
                 time.sleep(random.randint(30, 45))
-                page.goto(self.webpage_url, wait_until="domcontentloaded")
+                page.goto(self.webpage_url, timeout=100000)
             # Close the browser
             browser.close()
         if filter_by:
